@@ -1,0 +1,125 @@
+﻿@model IEnumerable<CapaEntidad.entProgramaActividad>
+
+@{
+    ViewBag.Title = "Reporte de Obra";
+
+    CapaEntidad.entObra obra = CapaLogica.logObra.Instancia.ObtenerObra(EscalaConstructoresSAC.Controllers.ReportarController.ObraID);
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/datatables")
+    <script>
+        $(document).ready(function () {
+            var tabla = $('#miTabla').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+                "columnDefs": [
+                { "searchable": false, "targets": [0, 4, 5, 6, 9, 10, 11] },
+                { "targets": '_all', "className": "text-center" }],
+                "order": [[0, 'asc']],
+                //responsive: true,
+                //Exportar tabla en archivo
+                dom: 'Bfrtip',
+                buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
+                //fixed colums
+                scrollX: true,
+                scrollCollapse: true,
+                paging: true,
+                fixedColumns: true
+            });
+            setTimeout(function () {
+                tabla.draw();
+            }, 50);
+        });
+    </script>
+}
+
+
+<div class="container-fluid">
+    <header class="section-header">
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h2>@obra.NombreObra</h2>
+                    <div class="subtitle">ID: @obra.ObraID</div>
+                    <div class="subtitle">Tipo: @obra.TipoObra</div>
+                    <div class="subtitle">Responsable: @obra.ResponsableObra</div>
+                    <div class="subtitle">Ubicación: @obra.UbicacionObra</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="card">
+        <div class="card-block">
+
+            <table id="miTabla" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th> ID Programa </th>
+                        <th> Nombre de Programa </th>
+                        <th> Descripción de Programa </th>
+                        <th> Coordinador de Programa </th>
+                        <th> Fecha Inicio de Programa </th>
+                        <th> Fecha Fin de Programa </th>
+                        <th> ID Actividad </th>
+                        <th> Nombre de Actividad </th>
+                        <th> Prioridad de Actividad </th>
+                        <th> Total de Operarios de Actividad </th>
+                        <th> Fecha Inicio de Actividad </th>
+                        <th> Fecha Fin de Actividad </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Programa.ProgramaID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Programa.Nombreprograma)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Programa.Descripcionprograma)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Programa.Coordinadorprograma)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Programa.Fechainicioprograma)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Programa.Fechafinprograma)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.ActividadID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.Nombreactividad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.Prioridadactividad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.Totaloperariosactividad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.Fechainicioactividad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.Fechafinactividad)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div><!--.container-fluid-->
+
+<div>
+    @Html.ActionLink("Regresar a la lista", "ListaTotalObras", "Reportar")
+</div>

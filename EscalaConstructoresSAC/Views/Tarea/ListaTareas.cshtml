@@ -1,0 +1,87 @@
+﻿@model IEnumerable<CapaEntidad.entTarea>
+
+@{
+    ViewBag.Title = "Lista de Tareas";
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/datatables")
+    <script>
+    $(document).ready(function () {
+        $('#miTabla').DataTable({
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+            "language": {
+                "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            },
+            "columnDefs": [
+            { "searchable": false, "orderable": false, "targets": [4] },
+            { "searchable": false, "targets": [0] },
+            { "targets": '_all', "className": "text-center" }],
+            "order": [[0, 'asc']],
+            responsive: true,
+            //Exportar tabla en archivo
+            dom: 'Bfrtip',
+            buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+        });
+    });
+    </script>
+}
+
+
+<div class="container-fluid">
+    <header class="section-header">
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h2>@ViewBag.Title</h2>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="card">
+        <div class="card-block">
+
+            <fieldset class="form-group">
+                <a class="btn btn-primary btn-block" href="@Url.Action("NuevaTarea", "Tarea")" role="button">Crear Nueva Tarea</a>
+            </fieldset>
+
+            <table id="miTabla" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th> ID </th>
+                        <th> Nombre </th>
+                        <th> Número de Operarios </th>
+                        <th> Duración </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TareaID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombretarea)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Numerooperariostarea)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Duraciontarea)
+                            </td>
+                            <td>
+                                <span class="btn-group btn-group-sm" role="group">
+                                    <a href="@Url.Action("EditaTarea", "Tarea", new { TareaID = item.TareaID })" class="btn btn-primary btn-sm glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top" title="Editar" role="button"></a>
+                                    <a href="@Url.Action("EliminaTarea", "Tarea", new { TareaID = item.TareaID })" class="btn btn-danger btn-sm glyphicon glyphicon-trash" data-toggle="tooltip" data-placement="top" title="Eliminar" role="button"></a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div><!--.container-fluid-->

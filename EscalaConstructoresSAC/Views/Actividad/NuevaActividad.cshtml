@@ -1,0 +1,81 @@
+﻿@model CapaEntidad.entActividad
+
+@{
+    ViewBag.Title = "Nueva Actividad";
+}
+
+<div class="container-fluid">
+    <header class="section-header">
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h3>@ViewBag.Title</h3>
+                    <ol class="breadcrumb breadcrumb-simple">
+                        <li><a href="@Url.Action("ListaActividades", "Actividad")">Actividades</a></li>
+                        <li class="active">@ViewBag.Title</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-typical box-typical-padding">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <fieldset class="form-group">
+                <label class="form-label">Nombre de actividad</label>
+                @Html.EditorFor(model => model.Nombreactividad, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombreactividad, "", new { @class = "text-danger" })
+            </fieldset>
+            <fieldset class="form-group">
+                <label class="form-label">Prioridad de actividad</label>
+                @Html.DropDownListFor(model => model.Prioridadactividad,
+                  new List<SelectListItem> {
+                       new SelectListItem { Value = "Muy Alta" , Text = "Muy Alta" },
+                       new SelectListItem { Value = "Alta" , Text = "Alta" },
+                       new SelectListItem { Value = "Media" , Text = "Media" },
+                       new SelectListItem { Value = "Baja" , Text = "Baja" },
+                       new SelectListItem { Value = "Muy Baja" , Text = "Muy Baja" }
+                    },
+                  new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Prioridadactividad, "", new { @class = "text-danger" })
+            </fieldset>
+            <fieldset class="form-group">
+                <label class="form-label">Fecha de inicio de la actividad</label>
+                @Html.EditorFor(model => model.Fechainicioactividad, new { htmlAttributes = new { @class = "form-control flatpickr", @placeholder = "día/mes/año" } })
+                @Html.ValidationMessageFor(model => model.Fechainicioactividad, "", new { @class = "text-danger" })
+            </fieldset>
+            <fieldset class="form-group">
+                <label class="form-label">Fecha de fin de la actividad</label>
+                @Html.EditorFor(model => model.Fechafinactividad, new { htmlAttributes = new { @class = "form-control flatpickr", @placeholder = "día/mes/año" } })
+                @Html.ValidationMessageFor(model => model.Fechafinactividad, "", new { @class = "text-danger" })
+            </fieldset>
+            <fieldset class="form-group">
+                <label class="form-label">Total de operarios</label>
+                @Html.EditorFor(model => model.Totaloperariosactividad, new { htmlAttributes = new { @class = "form-control", @min = 1} })
+                @Html.ValidationMessageFor(model => model.Totaloperariosactividad, "", new { @class = "text-danger" })
+            </fieldset>
+
+            <fieldset class="form-group">
+                <button type="submit" class="btn btn-block">Crear Actividad</button>
+            </fieldset>
+        }
+    </div>
+</div><!--.container-fluid-->
+
+<div>
+    @Html.ActionLink("Regresar a la lista", "ListaActividades")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/flatpickr")
+    <script>
+        $('#Fechainicioactividad').flatpickr({ minDate: "today" });
+        $('#Fechafinactividad').flatpickr({ minDate: "today" });
+    </script>
+}

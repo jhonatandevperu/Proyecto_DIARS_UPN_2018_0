@@ -1,0 +1,83 @@
+﻿@model IEnumerable<CapaEntidad.entObra>
+
+@{
+    ViewBag.Title = "Lista de Obras";
+}
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/datatables")
+    <script>
+    $(document).ready(function () {
+        $('#miTabla').DataTable({
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+            "language": {
+                "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            },
+            "columnDefs": [
+            { "searchable": false, "orderable": false, "targets": 5 },
+            { "searchable": false, "targets": 0 },
+            { "targets": '_all', "className": "text-center" }],
+            "order": [[0, 'asc']],
+            responsive: true
+        });
+    });
+    </script>
+}
+
+<div class="container-fluid">
+    <header class="section-header">
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h2>@ViewBag.Title</h2>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="card">
+        <div class="card-block">
+
+            <table id="miTabla" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th> ID </th>
+                        <th> Nombre </th>
+                        <th> Responsable </th>
+                        <th> Tipo </th>
+                        <th> Ubicación </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ObraID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NombreObra)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ResponsableObra)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TipoObra)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UbicacionObra)
+                            </td>
+                            <td>
+                                <span class="btn-group btn-group-sm" role="group">
+                                    <a href="@Url.Action("SeleccionaObra", "Reportar", new { ObraID = item.ObraID })" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver detalle de esta obra" role="button">Ver Detalle</a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div><!--.container-fluid-->

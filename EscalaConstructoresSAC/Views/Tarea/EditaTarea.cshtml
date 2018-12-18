@@ -1,0 +1,60 @@
+﻿@model CapaEntidad.entTarea
+
+@{
+    ViewBag.Title = "Editar Tarea";
+}
+
+<div class="container-fluid">
+    <header class="section-header">
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h3>@ViewBag.Title</h3>
+                    <ol class="breadcrumb breadcrumb-simple">
+                        <li><a href="@Url.Action("ListaTareas", "Tarea")">Tareas</a></li>
+                        <li class="active">@Model.Nombretarea</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-typical box-typical-padding">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <fieldset class="form-group">
+                <label class="form-label">Nombre de tarea</label>
+                @Html.EditorFor(model => model.Nombretarea, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombretarea, "", new { @class = "text-danger" })
+            </fieldset>
+            <fieldset class="form-group">
+                <label class="form-label">Número de operarios</label>
+                @Html.EditorFor(model => model.Numerooperariostarea, new { htmlAttributes = new { @class = "form-control", @min = 1 } })
+                @Html.ValidationMessageFor(model => model.Numerooperariostarea, "", new { @class = "text-danger" })
+            </fieldset>
+
+            <fieldset class="form-group">
+
+                <label class="form-label">Duración (Días)</label>
+                @Html.EditorFor(model => model.Duraciontarea, new { htmlAttributes = new { @class = "form-control", @min = 1 } })
+                @Html.ValidationMessageFor(model => model.Duraciontarea, "", new { @class = "text-danger" })
+            </fieldset>
+
+            <fieldset class="form-group">
+                <button type="submit" class="btn btn-block">Guardar Tarea</button>
+            </fieldset>
+        }
+    </div>
+</div><!--.container-fluid-->
+
+<div>
+    @Html.ActionLink("Regresar a la lista", "ListaTareas")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

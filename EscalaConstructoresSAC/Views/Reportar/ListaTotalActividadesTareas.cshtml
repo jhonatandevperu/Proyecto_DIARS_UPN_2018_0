@@ -1,0 +1,94 @@
+﻿@model IEnumerable<CapaEntidad.entActividadTarea>
+
+@{
+    ViewBag.Title = "Reporte de Actividad";
+
+    CapaEntidad.entActividad actividad = CapaLogica.logActividad.Instancia.ObtenerActividad(EscalaConstructoresSAC.Controllers.ReportarController.ActividadID);
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/datatables")
+    <script>
+        $(document).ready(function () {
+            var tabla = $('#miTabla').DataTable({
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+                "language": {
+                    "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+                "columnDefs": [
+                { "searchable": false, "targets": [0, 2, 3] },
+                { "targets": '_all', "className": "text-center" }],
+                "order": [[0, 'asc']],
+                //responsive: true,
+                //Exportar tabla en archivo
+                dom: 'Bfrtip',
+                buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5'],
+                //fixed colums
+                scrollX: true,
+                scrollCollapse: true,
+                paging: true,
+                fixedColumns: true
+            });
+            setTimeout(function () {
+                tabla.draw();
+            }, 50);
+        });
+    </script>
+}
+
+
+<div class="container-fluid">
+    <header class="section-header">
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h2>@actividad.Nombreactividad</h2>
+                    <div class="subtitle">ID: @actividad.ActividadID</div>
+                    <div class="subtitle">Prioridad: @actividad.Prioridadactividad</div>
+                    <div class="subtitle">Total Operarios: @actividad.Totaloperariosactividad</div>
+                    <div class="subtitle">Fecha Inicio: @String.Format("{0:dd-MM-yyyy}", @actividad.Fechainicioactividad)</div>
+                    <div class="subtitle">Fecha Fin: @String.Format("{0:dd-MM-yyyy}", @actividad.Fechafinactividad)</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="card">
+        <div class="card-block">
+
+            <table id="miTabla" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th> ID Tarea </th>
+                        <th> Nombre de Tarea </th>
+                        <th> Duración </th>
+                        <th> Número de Operarios </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tarea.TareaID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tarea.Nombretarea)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tarea.Duraciontarea)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Tarea.Numerooperariostarea)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div><!--.container-fluid-->
+
+<div>
+    @Html.ActionLink("Regresar a la lista", "ListaTotalActividades", "Reportar")
+</div>

@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/lobipanel")
+    <script>
+        $(document).ready(function () {
+            $('.panel').each(function () {
+                try {
+                    $(this).lobiPanel({
+                        sortable: true
+                    }).on('dragged.lobiPanel', function (ev, lobiPanel) {
+                        $('.dahsboard-column').matchHeight();
+                    });
+                } catch (err) { }
+            });
+
+            !function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = 'https://weatherwidget.io/js/widget.min.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'weatherwidget-io-js');
+        });
+    </script>
+}
+
+<div class="container-fluid">
+    <div class="row">
+        
+        <div class="col-xl-6">
+            <div class="chart-statistic-box">
+                <a class="weatherwidget-io" href="https://forecast7.com/es/n8d11n79d02/trujillo/" data-label_1="La Libertad" data-label_2="Trujillo" data-theme="original">La Libertad Trujillo</a>
+            </div><!--.chart-statistic-box-->
+        </div><!--.col-->
+
+        <div class="col-xl-6">
+            <div class="row">
+                <div class="col-sm-6">
+                    <article class="statistic-box red">
+                        <div>
+                            <div class="number">@EscalaConstructoresSAC.Controllers.HomeController.TotalNroObras</div>
+                            <div class="caption"><div>Total de Obras</div></div>
+                        </div>
+                    </article>
+                </div><!--.col-->
+                <div class="col-sm-6">
+                    <article class="statistic-box purple">
+                        <div>
+                            <div class="number">@EscalaConstructoresSAC.Controllers.HomeController.TotalNroProgramas</div>
+                            <div class="caption"><div>Total de Programas</div></div>
+                        </div>
+                    </article>
+                </div><!--.col-->
+                <div class="col-sm-6">
+                    <article class="statistic-box yellow">
+                        <div>
+                            <div class="number">@EscalaConstructoresSAC.Controllers.HomeController.TotalNroActividades</div>
+                            <div class="caption"><div>Total de Actividades</div></div>
+                        </div>
+                    </article>
+                </div><!--.col-->
+                <div class="col-sm-6">
+                    <article class="statistic-box green">
+                        <div>
+                            <div class="number">@EscalaConstructoresSAC.Controllers.HomeController.TotalNroTareas</div>
+                            <div class="caption"><div>Total de Tareas</div></div>
+                        </div>
+                    </article>
+                </div><!--.col-->
+            </div><!--.row-->
+        </div><!--.col-->
+    </div><!--.row-->
+
+</div><!--.container-fluid-->

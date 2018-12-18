@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+@{
+    Layout = null;
+}
+
+<html>
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escala Constructores SAC - Inicio de Sesión</title>
+    @Styles.Render("~/maincss")
+    @Styles.Render("~/login")
+</head>
+<body>
+    <div class="page-center">
+        <div class="page-center-in">
+            <div class="container-fluid">
+                <form class="sign-box" method="post" action="@Url.Action("VerificarAcceso","Acceso")">
+                    <div class="sign-avatar">
+                        <img src="~/img/avatar-sign.png" alt="">
+                    </div>
+                    <header class="sign-title">Inicio de Sesión</header>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Nombre de usuario" name="txtUsuario" />
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Contraseña" name="txtPassword"/>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox float-left">
+                            <input type="checkbox" id="signed-in" />
+                            <label for="signed-in">Mantenerme conectado</label>
+                        </div>
+                        <!--<div class="float-right reset">
+                            <a href="reset-password.html">Reset Password</a>
+                        </div>-->
+                    </div>
+                    <button type="submit" class="btn btn-rounded">Iniciar Sesión</button>
+                    <!--<p class="sign-note">New to our website? <a href="sign-up.html">Sign up</a></p>
+                    <button type="button" class="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>-->
+                </form>
+            </div>
+        </div>
+    </div><!--.page-center-->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/popper")
+    @Scripts.Render("~/bundles/tether")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/plugins")
+    @Scripts.Render("~/bundles/matchHeight")
+    @Scripts.Render("~/bundles/app")
+
+    <script>
+        $(function() {
+            $('.page-center').matchHeight({
+                target: $('html')
+            });
+
+            $(window).resize(function(){
+                setTimeout(function(){
+                    $('.page-center').matchHeight({ remove: true });
+                    $('.page-center').matchHeight({
+                        target: $('html')
+                    });
+                },100);
+            });
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<CapaEntidad.entProgramaActividad>
+
+@{
+    ViewBag.Title = "Lista De Actividades";
+
+    CapaEntidad.entPrograma programa = CapaLogica.logPrograma.Instancia.ObtenerPrograma(EscalaConstructoresSAC.Controllers.ProgramaActividadController.ProgramaID);
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/datatables")
+    <script>
+    $(document).ready(function () {
+        $('#miTabla').DataTable({
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]],
+            "language": {
+                "url": "http://cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+            },
+            "columnDefs": [
+            { "searchable": false, "orderable": false, "targets": [6] },
+            { "searchable": false, "targets": [0] },
+            { "targets": '_all', "className": "text-center" }],
+            "order": [[0, 'asc']],
+            responsive: true,
+            //Exportar tabla en archivo
+            dom: 'Bfrtip',
+            buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+        });
+    });
+    </script>
+}
+
+
+<div class="container-fluid">
+    <header class="section-header">
+        <div class="tbl">
+            <div class="tbl-row">
+                <div class="tbl-cell">
+                    <h2>@ViewBag.Title</h2>
+                    <ol class="breadcrumb breadcrumb-simple">
+                        <li><a href="@Url.Action("ListaSeleccionarObra", "Programa")">Seleccionar Obra</a></li>
+                        <li><a href="@Url.Action("ListaProgramas", "Programa", new { ObraID = EscalaConstructoresSAC.Controllers.ProgramaController.ObraID })">Programas</a></li>
+                        <li class="active">@programa.Nombreprograma.ToString()</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="card">
+        <div class="card-block">
+
+            <fieldset class="form-group">
+                <a class="btn btn-primary btn-block" href="@Url.Action("ListaActividadesDisponibles", "ProgramaActividad")" role="button">Agregar Actividad</a>
+            </fieldset>
+
+            <table id="miTabla" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th> ID </th>
+                        <th> Nombre </th>
+                        <th> Prioridad </th>
+                        <th> Fecha Inicio </th>
+                        <th> Fecha Fin </th>
+                        <th> Total de Operarios </th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.ActividadID)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.Nombreactividad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.Prioridadactividad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.Fechainicioactividad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.Fechafinactividad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad.Totaloperariosactividad)
+                            </td>
+                            <td>
+                                <span class="btn-group btn-group-sm" role="group">
+                                    <a href="@Url.Action("QuitaActividadDePrograma", "ProgramaActividad", new { ActividadID = item.Actividad.ActividadID })" class="btn btn-danger btn-sm glyphicon glyphicon-remove" data-toggle="tooltip" data-placement="top" title="Quitar" role="button"></a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div><!--.container-fluid-->
+
+<div>
+    @Html.ActionLink("Regresar a la lista", "ListaProgramas", "Programa", new { ObraID = EscalaConstructoresSAC.Controllers.ProgramaController.ObraID}, new { })
+</div>
